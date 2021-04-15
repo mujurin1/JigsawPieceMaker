@@ -22,6 +22,8 @@ let spl;
 function create() {
   spl.lineUpPerfect();
   spl.setWaku();
+  spl.setSetting();
+  document.querySelector("#setting").value = spl.setting;
 }
 
 window.onload = () => {
@@ -33,6 +35,7 @@ function getValue(id) {
   return +document.querySelector("#"+id).value;
 }
 function update() {
+  spl.title = document.querySelector("#title").value;
   spl.context.clearRect(0, 0, canvas.width, canvas.height);
   spl.changeImage(spl.image.src);
   spl.pieceCol = getValue("row");

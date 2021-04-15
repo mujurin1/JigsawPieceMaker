@@ -19,13 +19,13 @@ class SplitImage {
   srcHeight;
 
   /** 横のピース数 */
-  pieceCol = 4;
+  pieceCol = 16;
   /** 縦のピース数 */
-  pieceRow = 4;
+  pieceRow = 10;
   /** ピースの横幅 */
-  pieceWidth = 120;
+  pieceWidth = 40;
   /** ピースの縦幅 */
-  pieceHeight = 120;
+  pieceHeight = 40;
 
   /** ピースの重なる部分の横幅 */
   overlapWidth;// = 3;
@@ -43,7 +43,12 @@ class SplitImage {
   /** 最終的な横幅 */
   lastWidth;
   /** 最終的な縦幅 */
-  lastHeight
+  lastHeight;
+
+  /** パズルのタイトル。 */
+  title;
+  /** パズルの設定。 */
+  setting = "";
 
   /** 画像の切り抜くエリアX */
   bodyX = 0;
@@ -116,6 +121,116 @@ class SplitImage {
     this.lastHeight = this.pooh * this.pieceRow - this.overlapHeight*2;
     // this.wakuAry = new Array(32);
     this.wakuAry = new Array(this.pieceCol*2 * this.pieceRow);
+  }
+
+  /**
+   * `setting.txt` を作成する。
+   */
+  setSetting() {
+    const col = this.pieceCol;
+    const row = this.pieceRow;
+    const pCnt = col * row;
+
+    /** 設定ファイルの情報。 */
+    // タイトル
+    this.setting = this.title+"\n";
+    // ピースの数
+    this.setting += pCnt+"\n";
+    // 完成時のピースの座標
+    let y = 0;
+    for(let r=0; r<row; r++) {
+    let x = 0;
+    for(let c=0; c<col; c++) {
+      let db = this.getDekoBoko(r*col + c);
+      let mx = x;
+      let my = y;
+      if(db[0] == false) my += this.overlapHeight;
+      if(db[1] == false) mx += this.overlapWidth;
+      this.setting += mx+","+my+"\n";
+      x += this.pieceWidth;
+      if(c == 0) x -= this.overlapWidth;
+    }
+      y += this.pieceHeight;
+      if(r == 0) y -= this.overlapHeight;
+    }
+    // くっ付くピースID
+    // [0番目のピースが繋がるIDs, 2番目の.. , ..]
+    let cIds = [];
+    for(let i=0; i<pCnt; i++)
+      cIds[i] = [];
+    
+    let fnc = (a, b) => {
+      cIds[a].push(b);
+      cIds[b].push(a);
+    };
+    for(let r=0; r<row; r++) {
+    for(let c=0; c<col; c++) {
+      let id = r*col + c;
+      if(id == col*row-1) break;
+      if(c == col-1){}
+      else fnc(id, id+1);
+      if(r == row-1){}
+      else fnc(id, id+col);
+    }
+    }
+    for(let i=0; i<cIds.length; i++) {
+      cIds[i].sort((a, b) => a - b);
+      this.setting += cIds[i].join()+"\n";
+    }
+
+    // １枚の画像からピースに切り分けるための情報
+    // X,Y,Width,Height
+    y = 0;
+    for(let r=0; r<row; r++) {
+    let x = 0;
+    for(let c=0; c<col; c++) {
+      let db = this.getDekoBoko(r*col + c);
+      let mx = x;
+      let my = y;
+      let wid = this.pieceWidth;
+      let hei = this.pieceHeight;
+      if(db[0] == true) hei += this.overlapHeight;
+      if(db[0] == false) my += this.overlapHeight;
+      if(db[1] == true) wid += this.overlapWidth;
+      if(db[1] == false) mx += this.overlapWidth;
+      if(db[2] == true) wid += this.overlapWidth;
+      if(db[3] == true) hei += this.overlapHeight;
+      this.setting += mx+","+my+","+wid+","+hei+"\n";
+      x += this.pieceWidth + this.overlapWidth;
+      if(c != 0) x += this.overlapWidth;
+    }
+      y += this.pieceHeight + this.overlapHeight;
+      if(r != 0) y += this.overlapHeight;
+    }
+  }
+
+  /**
+   * 指定位置ピースの、上、下、左、右の出っ張りを取得する。  
+   * true: 凸  false: 凹
+   * @param {number} pId ピースID
+   * @returns 真偽値の配列 [上, 左, 右, 下]
+   */
+  getDekoBoko(pId) {
+    let ret = [];
+    // まず自分の右側の wakuAry[] のインデックスを計算
+    let migi = this.pieceCol*2 * Math.floor(pId/this.pieceCol) + pId%this.pieceCol;
+    // 上
+    if(pId >= this.pieceCol) {
+      ret[0] = this.wakuAry[migi - this.pieceCol] == 1;
+    }
+    // 左
+    if(pId%this.pieceCol != 0) {
+      ret[1] = this.wakuAry[migi - 1] == 1;
+    }
+    // 右
+    if(pId%this.pieceCol != this.pieceCol-1) {
+      ret[2] = this.wakuAry[migi] == 0;
+    }
+    // 下
+    if(pId < this.pieceCol*(this.pieceRow-1)) {
+      ret[3] = this.wakuAry[migi + this.pieceCol] == 0;
+    }
+    return ret;
   }
 
   /**
