@@ -20,7 +20,6 @@ let ctx = canvas.getContext("2d");
 let spl;
 
 function create() {
-  // spl.lineUp();
   spl.lineUpPerfect();
   spl.setWaku();
 }

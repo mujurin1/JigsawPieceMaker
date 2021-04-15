@@ -112,8 +112,8 @@ class SplitImage {
     this.poh = this.pieceHeight + this.overlapHeight;
     this.poow = this.pow + this.overlapWidth;
     this.pooh = this.poh + this.overlapHeight;
-    this.lastWidth = this.poow * this.pieceCol;
-    this.lastHeight = this.pooh * this.pieceRow;
+    this.lastWidth = this.poow * this.pieceCol - this.overlapWidth*2;
+    this.lastHeight = this.pooh * this.pieceRow - this.overlapHeight*2;
     // this.wakuAry = new Array(32);
     this.wakuAry = new Array(this.pieceCol*2 * this.pieceRow);
   }
@@ -130,10 +130,9 @@ class SplitImage {
      * wid  200   hei  400
      * pow  250   poh  500
      * poow 300   pooh 600
-     * 
      */
-    const w = this.poow * col;
-    const h = this.pooh * row;
+    let w = this.poow * col;
+    let h = this.pooh * row;
     const translateX = w + this.poow / 2;
     const translateY = h + this.pooh / 2;
     const saW = ((this.pieceWidth-this.pieceHeight)*0.75);
@@ -144,14 +143,24 @@ class SplitImage {
     this.context.translate(translateX, translateY);
     this.context.rotate(angle * (Math.PI / 180));
     // ここめっちゃ悩んだ
-    if(angle == 90) {
+    if(angle == 90) {             // 右
+      w -= this.overlapWidth;
+      h += this.overlapHeight;
       this.context.translate(-translateX + saW, -translateY + saH);
       this.context.drawImage(img, w, h, this.pooh, this.poow);
-    } else if (angle == -90) {
+    } else if (angle == -90) {    // 左
+      w += this.overlapWidth;
+      h -= this.overlapHeight;
       this.context.translate(-translateX + saW, -translateY + saH);
       this.context.drawImage(img, w, h, this.pooh, this.poow);
-    } else 
-    {
+    } else {                      // 上か、下
+      if(angle == 0) {            // 上
+        w -= this.overlapWidth;
+        h -= this.overlapHeight;
+      } else {                    // 下
+        w += this.overlapWidth;
+        h += this.overlapHeight;
+      }
       this.context.translate(-translateX, -translateY);
       this.context.drawImage(img, w, h, this.poow, this.pooh);
     }
@@ -239,24 +248,23 @@ class SplitImage {
         // 元画像の切り抜き始める座標XY
         let sx = spl.bodyX + this.pieceWidth * col;
         let sy = spl.bodyY + this.pieceHeight * row;
-         sx -= this.overlapWidth;
-         sy -= this.overlapHeight;
+        sx -= this.overlapWidth;
+        sy -= this.overlapHeight;
 
         // 元画像の切り抜くサイズ
         let sw = this.poow;
         let sh = this.pooh;
 
         // キャンバスに描画する座標XY
-        let dx = this.poow * col;
-        let dy = this.pooh * row;
+        let dx = this.poow * col - this.overlapWidth;
+        let dy = this.pooh * row - this.overlapHeight;
 
         // 貼る
         this.context.drawImage(this.image, sx, sy, sw, sh, dx, dy, sw, sh);
 
         // 更新
       }
-    }
-    // ここまで ２重 for
+    }// ここまで ２重 for
   }
 
 
