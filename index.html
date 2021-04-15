@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="main" style="background-color:#4d66f3;">
+    <canvas id="canvas"></canvas>
+  </div>
+  <div id="sub">
+    <canvas id="preview" width="100" height="100"></canvas>
+  </div>
+  <div>
+    列数：横
+    <input type="number" id="row" value="16" onchange="update()">
+    列数：縦
+    <input type="number" id="col" value="9" onchange="update()"><br>
+    ピース：横幅
+    <input type="number" id="pieceW" value="40" step="10" onchange="update()">
+    ピース：縦幅
+    <input type="number" id="pieceH" value="40" step="10" onchange="update()"><br>
+    開始位置：X
+    <input type="number" id="bodyX" value="0" step="10" onchange="update()">
+    開始位置：Y
+    <input type="number" id="bodyY" value="0" step="10" onchange="update()"><br>
+    <!-- 更新ボタン -->
+    <input type="button" value="更新" onclick="update()"></button>
+    <!-- 生成ボタン -->
+    <input type="button" value="生成" onclick="create()"></button>
+  </div>
+
+  <script type="text/javascript" src="./main.js"></script>
+  <script type="text/javascript" src="./ma.js"></script>
+
+<style type="text/css">
+canvas{
+  width: 100%;
+  height: 100%;
+}
+#sub{
+  width: 20%;
+  height: 100px;
+}
+#main{
+  width: 80%;
+  height: 100%;
+}
+input {
+  width: 40px;
+}
+</style>
+
+</body>
+</html>
