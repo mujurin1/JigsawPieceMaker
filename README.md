@@ -1,5 +1,7 @@
 # JigsawPieceMaker
-ジグソーパズルのピースを作るやつ
+ジグソーパズルのピースを作るやつ  
+専用ページ  
+https://mujurin1.github.io/JigsawPieceMaker/
 
 # 準備
 まず、パズルにする画像を探します。  
