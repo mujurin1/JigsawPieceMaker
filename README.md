@@ -1,7 +1,16 @@
 # JigsawPieceMaker
 ジグソーパズルのピースを作るやつ  
-専用ページ  
+
+投稿フォーム  
+https://forms.gle/wbcGgJPSFyTErsF47
+
+生成ページ  
 https://mujurin1.github.io/JigsawPieceMaker/
+
+画像を探すサイト  
+（基本的にはこのサイトにある画像しか受け付けません）  
+https://pixabay.com/ja/
+
 
 # 準備
 まず、パズルにする画像を探します。  
