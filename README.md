@@ -1,7 +1,7 @@
 # JigsawPieceMaker
 ジグソーパズルのピースを作るやつ  
-作成例  
-https://youtu.be/IZcLMsDapzI
+作成例（動画）  
+https://youtu.be/nAhvri5WLS8
 
 投稿フォーム  
 https://forms.gle/wbcGgJPSFyTErsF47
