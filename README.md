@@ -31,6 +31,9 @@ https://pixabay.com/ja/
 ４．最後に投稿フォームにて送信して下さい。  
 　　https://forms.gle/wbcGgJPSFyTErsF47
 
+## 注意
+ピースのサイズは最低でも、縦横40ピクセル以上でお願いします。  
+
 
 # 例
 【難易度情報】  
