@@ -18,12 +18,14 @@
 let canvas = document.querySelector("#canvas");
 let ctx = canvas.getContext("2d");
 let spl;
+let info = ["タイトル", "レベル１の情報", "レベル２の情報", "レベル３の情報"];
+let size = {wid: 0, hei: 0};
 
-function create() {
+function preview() {
   spl.lineUpPerfect();
   spl.setWaku();
   spl.setSetting();
-  document.querySelector("#setting").value = spl.setting;
+  // document.querySelector("#setting").value = spl.setting;
 }
 
 window.onload = () => {
@@ -31,10 +33,61 @@ window.onload = () => {
   spl.update();
 };
 
+function level1() {
+  info[1] = calc();
+  update();
+}
+function level2() {
+  info[2] = calc();
+  update();
+}
+function level3() {
+  info[3] = calc();
+  update();
+}
+
+function getSize() {
+  size.wid = ctx.canvas.width;
+  size.hei = ctx.canvas.height;
+}
+function calc() {
+  getSize();
+  let pW = document.querySelector("#pieceW").value;
+  let pH = document.querySelector("#pieceH").value;
+  let sX = document.querySelector("#bodyX").value;
+  let sY = document.querySelector("#bodyY").value;
+
+  let col = Math.floor((size.wid-sX)/pW);
+  let row = Math.floor((size.hei-sY)/pH);
+
+  document.querySelector("#row").value = col;
+  document.querySelector("#col").value = row;
+
+  let cnt = col*row;
+
+  return cnt+","+pW+","+pH+","+sX+","+sY;
+}
+
 function getValue(id) {
   return +document.querySelector("#"+id).value;
 }
 function update() {
+  let pW = document.querySelector("#pieceW").value;
+  let pH = document.querySelector("#pieceH").value;
+  let sX = document.querySelector("#bodyX").value;
+  let sY = document.querySelector("#bodyY").value;
+
+  let col = Math.floor((size.wid-sX)/pW);
+  let row = Math.floor((size.hei-sY)/pH);
+
+
+  document.querySelector("#row").value = col;
+  document.querySelector("#col").value = row;
+
+
+
+
+
   spl.title = document.querySelector("#title").value;
   spl.context.clearRect(0, 0, canvas.width, canvas.height);
   spl.changeImage(spl.image.src);
@@ -67,6 +120,12 @@ function update() {
   ctx.stroke();
   spl.update();
 
+
+  info[0] = document.querySelector("#title").value;
+  document.querySelector("#setting").value  = info[0]+"\n";
+  document.querySelector("#setting").value += info[1]+"\n";
+  document.querySelector("#setting").value += info[2]+"\n";
+  document.querySelector("#setting").value += info[3];
 }
 
 // ファイル受付

@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="jp">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>パズルを作る部屋</title>
+
+<style type="text/css">
+  canvas{
+    width: 100%;
+    height: 100%;
+  }
+  #sub{
+    width: 40%;
+    height: 40%;
+  }
+  #main{
+    width: 60%;
+    height: 100%;
+  }
+  input{
+    width: 40px;
+  }
+  #title{
+    width: 200px;
+  }
+  </style>
+
 </head>
 <body>
   <div style="display: flex;">
@@ -19,47 +41,31 @@
     タイトル
     <input type="text" id="title" value="タイトル"><br>
     列数：横
-    <input type="number" id="row" value="16" onchange="update()">
-    列数：縦
-    <input type="number" id="col" value="10" onchange="update()"><br>
+    <input type="number" id="row" value="16" onchange="update()" readonly>
+    縦
+    <input type="number" id="col" value="10" onchange="update()" readonly>（自動入力）<br>
     ピース：横幅
     <input type="number" id="pieceW" value="40" step="10" onchange="update()">
-    ピース：縦幅
+    縦幅
     <input type="number" id="pieceH" value="40" step="10" onchange="update()"><br>
     開始位置：X
     <input type="number" id="bodyX" value="0" step="10" onchange="update()">
-    開始位置：Y
+    Y
     <input type="number" id="bodyY" value="0" step="10" onchange="update()"><br>
     <!-- 更新ボタン -->
     <input type="button" value="更新" onclick="update()"></button>
-    <!-- 生成ボタン -->
-    <input type="button" value="生成" onclick="create()"></button>
+    <!-- プレビューボタン -->
+    <input type="button" style="width: 80px;" value="プレビュー" onclick="preview()"></button><br><br>
+    今の情報をどのレベルとするか<br>
+    <!-- レベルボタン -->
+    <input type="button" style="width: 80px;" value="レベル１" onclick="level1()"></button>
+    <input type="button" style="width: 80px;" value="レベル２" onclick="level2()"></button>
+    <input type="button" style="width: 80px;" value="レベル３" onclick="level3()"></button>
   </div>
   <textarea id="setting" rows="10" cols="30"></textarea>
 
   <script type="text/javascript" src="./main.js"></script>
   <script type="text/javascript" src="./ma.js"></script>
-
-<style type="text/css">
-canvas{
-  width: 100%;
-  height: 100%;
-}
-#sub{
-  width: 40%;
-  height: 40%;
-}
-#main{
-  width: 60%;
-  height: 100%;
-}
-input{
-  width: 40px;
-}
-#title{
-  width: 200px;
-}
-</style>
 
 </body>
 </html>
